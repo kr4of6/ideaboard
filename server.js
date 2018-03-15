@@ -12,12 +12,12 @@ let ideas = [];
 let id = 0;
 
 //Used to get all ideas
-app.get('/idea', (req, res) => {
+app.get('/api/idea', (req, res) => {
     res.send(ideas);
 });
 
 //used to add a single idea
-app.post('/idea', (req, res) => {
+app.post('/api/idea', (req, res) => {
     id = id + 1;
     let idea = { id: id, text: req.body.text, likes: req.body.likes, dislikes: req.body.dislikes };
     ideas.push(idea);
@@ -25,7 +25,7 @@ app.post('/idea', (req, res) => {
 });
 
 //used to update a single idea
-app.put('/idea/:id', (req, res) => {
+app.put('/api/idea/:id', (req, res) => {
     let id = parseInt(req.params.id);
     let ideasMap = ideas.map(idea => { return idea.id; });
     let index = ideasMap.indexOf(id);
@@ -38,7 +38,7 @@ app.put('/idea/:id', (req, res) => {
 });
 
 //used to add a single idea
-app.delete('/idea/:id', (req, res) => {
+app.delete('/api/idea/:id', (req, res) => {
     let id = parseInt(req.params.id);
     let removeIndex = ideas.map(idea => { return idea.id; }).indexOf(id);
     if (removeIndex === -1) {
