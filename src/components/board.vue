@@ -4,7 +4,11 @@
 <textarea v-model="message" placeholder="add multiple lines"></textarea>
  <button v-on:click="saveIdea()">Add</button>
 
-<label v-for="idea in ideas"> <p>{{idea.text}} Likes:{{idea.likes}} Dislikes:{{idea.dislikes}}</p></label>
+<div v-for="idea in updateIdeas">
+   <p>{{idea.text}} Likes:{{idea.likes}} Dislikes:{{idea.dislikes}}</p>
+   <button  v-on:click="like(idea)">LIKE</button>
+   <button v-on:click="dislike(idea)">DISLIKE</button>
+   </div>
   </div>
 </template>
 
@@ -21,7 +25,12 @@ export default {
   created: function() {
     this.getIdeas();
   },
-  computed: {},
+  computed: {
+    updateIdeas: function() {
+      this.getIdeas();
+      return this.ideas;
+    }
+  },
   methods: {
     saveIdea: function() {
       console.log("Someone wants to save an idea");
@@ -49,6 +58,39 @@ export default {
         .get("/api/idea")
         .then(response => {
           this.ideas = response.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    like: function(idea){
+    console.log("LIKE");
+    //increment like
+
+    // send update put to set new like #
+    axios
+        .put("/api/idea/" + idea.id, {
+          likes: idea.likes + 1,
+          dislikes: idea.dislikes
+        })
+        .then(response => {
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    dislike: function(idea){
+      console.log("DISLIKE");
+    //increment like
+
+    // send update put to set new like #
+    axios
+        .put("/api/idea/" + idea.id, {
+          likes: idea.likes,
+          dislikes: idea.dislikes + 1
+        })
+        .then(response => {
+          idea = response.data
         })
         .catch(err => {
           console.log(err);
