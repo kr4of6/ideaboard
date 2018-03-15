@@ -38,6 +38,19 @@ app.put('/api/idea/:id', (req, res) => {
     res.send(idea);
 });
 
+//used to update a single idea
+app.put('/api/idea/location/:id', (req, res) => {
+  let id = parseInt(req.params.id);
+  let ideasMap = ideas.map(idea => { return idea.id; });
+  let index = ideasMap.indexOf(id);
+  let idea = ideas[index];
+
+  idea.x = req.body.x;
+  idea.y = req.body.y;
+
+  res.send(idea);
+});
+
 //used to add a single idea
 app.delete('/api/idea/:id', (req, res) => {
     let id = parseInt(req.params.id);
