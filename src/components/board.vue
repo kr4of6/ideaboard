@@ -4,47 +4,54 @@
 <textarea v-model="message" placeholder="add multiple lines"></textarea>
  <button v-on:click="saveIdea()">Add</button>
 
+<label v-for="idea in ideas"> <p>{{idea.text}} Likes:{{idea.likes}} Dislikes:{{idea.dislikes}}</p></label>
   </div>
 </template>
 
 <script>
- import axios from 'axios';
+import axios from "axios";
 export default {
   name: "AppHeader",
   data() {
-   return {
-     message: "",
-     ideas: []
-   };
+    return {
+      message: "",
+      ideas: []
+    };
   },
+  computed: {},
   methods: {
     saveIdea: function() {
       console.log("Someone wants to save an idea");
-
-      //create idea item
-
-      // call post to save item
-      axios.post("/api/idea", {
-        text: this.message,
-        likes: 0,
-        dislikes: 0
-      }).then(response => {
-        this.message = "";
-        this.getIdeas();
-      }).catch(err => {
-        console.log(err);
-      });
-
+      if (this.message === "") {
+        console.log("No can do");
+        return;
+      }
+      // call post to save/create item
+      axios
+        .post("/api/idea", {
+          text: this.message,
+          likes: 0,
+          dislikes: 0
+        })
+        .then(response => {
+          this.message = "";
+          this.getIdeas();
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
-    getIdeas: function(){
-       axios.get("/api/idea").then(response => {
-        this.ideas = response.data;
-      }).catch(err => {
-        console.log(err);
-      });
-
+    getIdeas: function() {
+      axios
+        .get("/api/idea")
+        .then(response => {
+          this.ideas = response.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
-  },
+  }
 };
 </script>
 
