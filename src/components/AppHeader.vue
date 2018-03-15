@@ -1,51 +1,13 @@
 <template>
   <div >
-   <span>Tell us your idea:</span>
-<textarea v-model="message" placeholder="add multiple lines"></textarea>
- <button v-on:click="saveIdea()">Add</button>
-
   </div>
 </template>
 
 <script>
- import axios from 'axios';
 export default {
   name: "AppHeader",
-  data() {
-   return {
-     message: "",
-     ideas: []
-   };
-  },
-  methods: {
-    saveIdea: function() {
-      console.log("Someone wants to save an idea");
+}
 
-      //create idea item
-
-      // call post to save item
-      axios.post("/api/idea", {
-        text: this.message,
-        likes: 0,
-        dislikes: 0
-      }).then(response => {
-        this.message = "";
-        this.getIdeas();
-      }).catch(err => {
-        console.log(err);
-      });
-
-    },
-    getIdeas: function(){
-       axios.get("/api/idea").then(response => {
-        this.ideas = response.data;
-      }).catch(err => {
-        console.log(err);
-      });
-
-    }
-  },
-};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
