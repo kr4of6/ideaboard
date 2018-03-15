@@ -76,8 +76,8 @@ export default {
         // idea.x =
         // idea.x = event.y;
         // idea.y = event.x;
-        idea.x = event.pageY-  30;
-        idea.y = event.pageX -  20;
+        idea.y = event.pageY - 30;
+        idea.x = event.pageX - 40;
         console.log(idea);
         // this.movingID
       }
@@ -91,14 +91,17 @@ export default {
         return;
       }
       // call post to save/create item
+      if (this.ideas.length > 14) {
+        this.deleteSurplus();
+      }
 
       axios
         .post("/api/idea", {
           text: this.message,
           likes: 0,
           dislikes: 0,
-          x: this.random(150, 500),
-          y: this.random(50, 1000)
+          x: this.random(50, 1000),
+          y: this.random(150, 500)
         })
         .then(response => {
           this.message = "";
@@ -157,9 +160,33 @@ export default {
     },
     calcPosition: function(item) {
       return {
-        top: item.x + "px",
-        left: item.y + "px"
+        top: item.y + "px",
+        left: item.x + "px"
       };
+    },
+    deleteSurplus: function() {
+      console.log("DELETE CALLED");
+      let wssf = 10000;
+      let wssfIndex = -1;
+      for (let i = 0; i < this.ideas.length; i++) {
+        let idea = this.ideas[i];
+        let diff = idea.likes - idea.dislikes;
+
+        if (diff < wssf) {
+          wssf = diff;
+          wssfIndex = i;
+        }
+      }
+
+      //delete worst
+      axios
+        .delete("/api/idea/" + this.ideas[wssfIndex].id)
+        .then(response => {
+          this.getIdeas();
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };

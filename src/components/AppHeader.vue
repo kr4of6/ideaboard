@@ -1,5 +1,6 @@
 <template>
   <div >
+    <a href="https://github.com/kr4of6/ideaboard">Github Link</a>
   </div>
 </template>
 
@@ -26,5 +27,7 @@ li {
 }
 a {
   color: #42b983;
+  position: absolute;
+  bottom:20px;
 }
 </style>
