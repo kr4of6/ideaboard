@@ -18,6 +18,9 @@ export default {
       ideas: []
     };
   },
+  created: function() {
+    this.getIdeas();
+  },
   computed: {},
   methods: {
     saveIdea: function() {
