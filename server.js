@@ -19,7 +19,8 @@ app.get('/api/idea', (req, res) => {
 //used to add a single idea
 app.post('/api/idea', (req, res) => {
     id = id + 1;
-    let idea = { id: id, text: req.body.text, likes: req.body.likes, dislikes: req.body.dislikes };
+    let idea = { id: id, text: req.body.text, likes: req.body.likes,
+      dislikes: req.body.dislikes, x:req.body.x, y:req.body.y };
     ideas.push(idea);
     res.send(idea);
 });

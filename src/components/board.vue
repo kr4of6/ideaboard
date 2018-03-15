@@ -4,12 +4,12 @@
 <textarea v-model="message" placeholder="add multiple lines"></textarea>
  <button v-on:click="saveIdea()">Add</button>
 
-<div v-for="idea in updateIdeas">
+<div v-for="idea in updateIdeas" class="idea" :style="calcPosition(idea)">
    <p>{{idea.text}} Likes:{{idea.likes}} Dislikes:{{idea.dislikes}}</p>
    <button  v-on:click="like(idea)">LIKE</button>
    <button v-on:click="dislike(idea)">DISLIKE</button>
-   </div>
   </div>
+   </div>
 </template>
 
 <script>
@@ -43,7 +43,9 @@ export default {
         .post("/api/idea", {
           text: this.message,
           likes: 0,
-          dislikes: 0
+          dislikes: 0,
+          x: this.random(100, 800),
+          y: this.random(200, 500)
         })
         .then(response => {
           this.message = "";
@@ -63,38 +65,46 @@ export default {
           console.log(err);
         });
     },
-    like: function(idea){
-    console.log("LIKE");
-    //increment like
+    like: function(idea) {
+      console.log("LIKE");
+      //increment like
 
-    // send update put to set new like #
-    axios
+      // send update put to set new like #
+      axios
         .put("/api/idea/" + idea.id, {
           likes: idea.likes + 1,
           dislikes: idea.dislikes
         })
-        .then(response => {
-        })
+        .then(response => {})
         .catch(err => {
           console.log(err);
         });
     },
-    dislike: function(idea){
+    dislike: function(idea) {
       console.log("DISLIKE");
-    //increment like
+      //increment like
 
-    // send update put to set new like #
-    axios
+      // send update put to set new like #
+      axios
         .put("/api/idea/" + idea.id, {
           likes: idea.likes,
           dislikes: idea.dislikes + 1
         })
         .then(response => {
-          idea = response.data
+          idea = response.data;
         })
         .catch(err => {
           console.log(err);
         });
+    },
+    random: function(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    },
+    calcPosition: function(item) {
+      return {
+        top: item.x + "px",
+        left: item.y + "px"
+      };
     }
   }
 };
@@ -116,5 +126,8 @@ li {
 }
 a {
   color: #42b983;
+}
+.idea {
+  position: absolute;
 }
 </style>
