@@ -14,6 +14,7 @@
 
 <script>
 import axios from "axios";
+axios.defaults.baseURL = 'http://104.236.215.111:3010';
 export default {
   name: "AppHeader",
   data() {

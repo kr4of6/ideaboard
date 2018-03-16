@@ -13,7 +13,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://localhost:3010',
+        target: ':3010',
         secure: false
       }
     },
@@ -51,7 +51,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://104.236.215.111:3010',
+        target: 'localhost:3010',
         secure: false
       }
     },
